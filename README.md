@@ -24,6 +24,8 @@ I used **Google Colab** to run the analysis, leveraging its cloud-based environm
 ### 🔄 Code
 
 ```python
+import pandas as pd
+
 # Load the CSV files
 df_aug = pd.read_csv('/content/202408-capitalbikeshare-tripdata.csv')
 df_sep = pd.read_csv('/content/202409-capitalbikeshare-tripdata.csv')
@@ -32,10 +34,16 @@ df_oct = pd.read_csv('/content/202410-capitalbikeshare-tripdata.csv')
 # Merge the DataFrames
 df = pd.concat([df_aug, df_sep, df_oct], ignore_index=True)
 
-# Filter and rename columns for consistency
-start_stations = df[['start_station_name', 'start_lat', 'start_lng']].dropna().rename(
-    columns={'start_station_name': 'station_name', 'start_lat': 'latitude', 'start_lng': 'longitude'}
-)
-end_stations = df[['end_station_name', 'end_lat', 'end_lng']].dropna().rename(
-    columns={'end_station_name': 'station_name', 'end_lat': 'latitude', 'end_lng': 'longitude'}
-)
+# Filter out rows where start_station_name or end_station_name is not NaN
+start_stations = df[['start_station_name', 'start_lat', 'start_lng']].dropna()
+end_stations = df[['end_station_name', 'end_lat', 'end_lng']].dropna()
+
+# Rename columns to make them consistent for combining
+start_stations.rename(columns={'start_station_name': 'station_name',
+                               'start_lat': 'latitude',
+                               'start_lng': 'longitude'}, inplace=True)
+
+end_stations.rename(columns={'end_station_name': 'station_name',
+                             'end_lat': 'latitude',
+                             'end_lng': 'longitude'}, inplace=True)
+
