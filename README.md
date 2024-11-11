@@ -2,7 +2,6 @@
 
 **GeoBike-Station-Planner**: A Python-based tool leveraging geospatial analysis to optimize new bike station placements in Washington, D.C. Features include **geofencing**, **grid-based clustering**, and **service radius checks** to identify high-demand, underserved areas.
 
-
 ## 🛤️ Project Overview: Finding the Perfect Spot for New Bike Stations
 
 🚲 **Problem**: Riders in Washington, D.C. often struggle to find nearby bike stations, especially in high-demand areas.
@@ -12,6 +11,8 @@
 🗺️ **Approach**: Through data-driven geospatial analysis, I pinpointed underserved hotspots — areas with high bike activity but no nearby stations.
 
 🏆 **Outcome**: A clear, actionable plan for expanding the bike-sharing network, filling gaps, and ensuring riders have access to stations exactly where they need them.
+
+
 
 ## 📊 Datasets
 
@@ -27,7 +28,7 @@ This dataset offers a complete view of recent bike usage in Washington, D.C.
 
 I used **Google Colab** to run the analysis, leveraging its cloud-based environment for efficient data handling. The data was loaded into **Pandas DataFrames** from CSV files for each month. I merged the datasets into a single DataFrame and cleaned the data by removing rows with missing station names. Column names were standardized for consistency.
 
-### 🧑‍💻 Code
+#### 🧑‍💻 Code
 
 ```python
 import pandas as pd
@@ -55,11 +56,11 @@ end_stations.rename(columns={'end_station_name': 'station_name',
 ```
 
 
-# 🚲 Extracting Existing Bike Stations
+## 🚲 Extracting Existing Bike Stations
 
 In the previous step, I filtered the dataset to include only trips where either `start_station_name` or `end_station_name` had valid entries, ensuring that only recognized bike stations were considered. The goal here was to compile a comprehensive list of these existing stations for further analysis.
 
-## 🔍 Process Overview
+#### 🔍 Process Overview
 
 1. **Combining Start and End Station Data**:  
    To capture all potential bike stations, I merged the filtered DataFrames for start and end stations. This ensured that stations listed as either a starting or ending location were included in the analysis.
@@ -70,7 +71,7 @@ In the previous step, I filtered the dataset to include only trips where either 
 3. **Exporting the Station List**:  
    The final list of unique bike stations was saved to a CSV file for use in subsequent geospatial analysis.
 
-## 🧑‍💻 Code
+#### 🧑‍💻 Code
 
 ```python
 import pandas as pd
@@ -86,7 +87,7 @@ output_file_path = '/content/Existing_stations.csv'
 existing_stations.to_csv(output_file_path, index=False)
 ```
 
-# 🗺️ Geospatial Data Extraction and Geofencing
+## 🗺️ Geospatial Data Extraction and Geofencing
 
 This step focuses on geospatial analysis using several Python libraries to handle data and perform calculations:
 
@@ -97,7 +98,7 @@ This step focuses on geospatial analysis using several Python libraries to handl
 - **NetworkX**: For graph-based operations on the road network
 - **Geopy**: For distance calculations using the geodesic formula
 
-## 📋 Process Overview
+#### 📋 Process Overview
 
 1. **Extract Trip Coordinates**:  
    I combined the latitude and longitude of both starting and ending points from the trip data, keeping only entries with valid coordinates.
@@ -108,7 +109,7 @@ This step focuses on geospatial analysis using several Python libraries to handl
 3. **Create a Geofence Using Convex Hull**:  
    I generated a geofence using the convex hull of the road network nodes to outline the area of interest, ensuring focus on the relevant urban area.
 
-## 🧑‍💻 Code
+#### 🧑‍💻 Code
 
 ```python
 import numpy as np
@@ -139,11 +140,11 @@ nodes_gdf = gpd.GeoDataFrame(nodes_df, geometry=gpd.points_from_xy(nodes_df['x']
 geofence_polygon = nodes_gdf.unary_union.convex_hull
 
 ```
-# 🗺️ Filtering Coordinates and Stations Within the Geofence
+## 🗺️ Filtering Coordinates and Stations Within the Geofence
 
 The dataset includes several trip points that extend beyond the main Washington, D.C. area. To focus on the urban core, I filtered both the trip coordinates and station data, including only points within a defined geofence around the city. This step ensures the analysis is relevant, avoiding noise from areas outside the city boundary.
 
-## 📋 Process Overview
+#### 📋 Process Overview
 
 1. **Filtering Trip Coordinates**:  
    I converted the combined trip coordinates (start and end points) into a GeoDataFrame and applied the geofence filter.
@@ -151,7 +152,7 @@ The dataset includes several trip points that extend beyond the main Washington,
 2. **Filtering Existing Bike Stations**:  
    I processed the existing station data by converting it to a GeoDataFrame and applied the same geofence filter to retain only stations within the city boundary.
 
-## 🧑‍💻 Code
+#### 🧑‍💻 Code
 
 ```python
 import geopandas as gpd
@@ -184,11 +185,11 @@ filtered_stations = stations_gdf[stations_gdf.within(geofence_polygon)].reset_in
 filtered_output_path = '/content/filtered_unique_stations_within_geofence.csv'
 filtered_stations[['station_name', 'latitude', 'longitude']].to_csv(filtered_output_path, index=False)
 ```
-# 🗺️ Grid-Based Clustering Algorithm
+## 🗺️ Grid-Based Clustering Algorithm
 
 Grid-based clustering is a method that divides a geographical area into uniform grid cells and assigns data points based on their coordinates. In this project, I used a grid size of **0.001 degrees** (approximately 100 meters) to segment Washington, D.C. into manageable sections. Each trip coordinate was mapped to a grid cell using its latitude and longitude. By aggregating data within each cell, I calculated the centroid (average position) and density (number of points) for each grid cell. This method efficiently identifies areas of high bike usage by focusing on the density of points in each grid cell.
 
-## 📋 Process Overview
+#### 📋 Process Overview
 
 1. **Define Grid Size**:  
    The grid size was set to 0.001 degrees, roughly corresponding to a 100-meter cell in the latitude and longitude coordinates.
@@ -202,7 +203,7 @@ Grid-based clustering is a method that divides a geographical area into uniform 
 4. **Export Clustered Data**:  
    The resulting clustered data was saved to a CSV file for further analysis.
 
-## 🧑‍💻 Code
+#### 🧑‍💻 Code
 
 ```python
 import pandas as pd
@@ -226,11 +227,11 @@ output_path = '/content/grid_clustered_coordinates.csv'
 cluster_summary[['x', 'y', 'density']].to_csv(output_path, index=False)
 ```
 
-# 🚲 Identifying Top 5 High-Demand Areas for New Bike Stations
+## 🚲 Identifying Top 5 High-Demand Areas for New Bike Stations
 
 In the final step of the analysis, I focused on pinpointing the top 5 high-density areas that currently lack adequate bike station coverage. By examining the density of bike usage in the clustered data, I was able to identify key locations that would benefit the most from a new bike station.
 
-## 📋 Process Overview
+#### 📋 Process Overview
 
 1. **Load Cluster and Station Data**:  
    I loaded the clustered data (from the grid-based clustering step) and the existing station data for analysis.
@@ -244,7 +245,7 @@ In the final step of the analysis, I focused on pinpointing the top 5 high-densi
 4. **Save the Top 5 Unserved Clusters**:  
    The identified clusters were saved to a CSV file for further review and potential planning of new bike stations.
 
-## 🧑‍💻 Code
+#### 🧑‍💻 Code
 
 ```python
 import pandas as pd
