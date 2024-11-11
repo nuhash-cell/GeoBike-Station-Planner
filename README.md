@@ -46,4 +46,36 @@ start_stations.rename(columns={'start_station_name': 'station_name',
 end_stations.rename(columns={'end_station_name': 'station_name',
                              'end_lat': 'latitude',
                              'end_lng': 'longitude'}, inplace=True)
+```
 
+
+# 🚲 Extracting Existing Bike Stations
+
+In the previous step, I filtered the dataset to include only trips where either `start_station_name` or `end_station_name` had valid entries, ensuring that only recognized bike stations were considered. The goal here was to compile a comprehensive list of these existing stations for further analysis.
+
+## 🔍 Process Overview
+
+1. **Combining Start and End Station Data**:  
+   To capture all potential bike stations, I merged the filtered DataFrames for start and end stations. This ensured that stations listed as either a starting or ending location were included in the analysis.
+
+2. **Removing Duplicates**:  
+   Since the same station could appear multiple times (e.g., as both a start and end location), I used `drop_duplicates()` to retain only unique station names, along with their respective coordinates.
+
+3. **Exporting the Station List**:  
+   The final list of unique bike stations was saved to a CSV file for use in subsequent geospatial analysis.
+
+## 🧑‍💻 Code
+
+```python
+import pandas as pd
+
+# 🗂️ Combine start and end station data
+all_stations = pd.concat([start_stations, end_stations])
+
+# 🗃️ Remove duplicates to get unique station names
+existing_stations = all_stations.drop_duplicates(subset=['station_name']).reset_index(drop=True)
+
+# 📁 Save the list of existing stations to a CSV file
+output_file_path = '/content/Existing_stations.csv'
+existing_stations.to_csv(output_file_path, index=False)
+```
