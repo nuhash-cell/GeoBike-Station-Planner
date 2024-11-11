@@ -219,3 +219,61 @@ cluster_summary = coordinates_df.groupby(['x_cell', 'y_cell']).agg(
 output_path = '/content/grid_clustered_coordinates.csv'
 cluster_summary[['x', 'y', 'density']].to_csv(output_path, index=False)
 ```
+
+# 🚲 Identifying Top 5 High-Demand Areas for New Bike Stations
+
+In the final step of the analysis, I focused on pinpointing the top 5 high-density areas that currently lack adequate bike station coverage. By examining the density of bike usage in the clustered data, I was able to identify key locations that would benefit the most from a new bike station.
+
+## 📋 Process Overview
+
+1. **Load Cluster and Station Data**:  
+   I loaded the clustered data (from the grid-based clustering step) and the existing station data for analysis.
+
+2. **Sort Clusters by Density**:  
+   The clusters were sorted in descending order based on density, highlighting areas with the highest bike usage.
+
+3. **Identify Unserved High-Density Clusters**:  
+   Using a radius of 200 meters, I checked if each high-density cluster was already served by an existing station. Clusters outside this service radius were considered unserved. The process continued until the top 5 unserved clusters were identified.
+
+4. **Save the Top 5 Unserved Clusters**:  
+   The identified clusters were saved to a CSV file for further review and potential planning of new bike stations.
+
+## 🧑‍💻 Code
+
+```python
+import pandas as pd
+from geopy.distance import geodesic
+
+# 📂 Step 1: Load Cluster and Station Data
+clustered_file_path = '/content/grid_clustered_coordinates.csv'
+stations_file_path = '/content/Existing_stations.csv'
+clusters_df = pd.read_csv(clustered_file_path)
+stations_df = pd.read_csv(stations_file_path)
+
+# 📊 Step 2: Sort Clusters by Density
+clusters_df = clusters_df.sort_values(by='density', ascending=False).reset_index(drop=True)
+
+# 🗺️ Step 3: Identify Unserved High-Density Clusters
+def is_within_radius(cluster_point, stations, radius=200):
+    cluster_coords = (cluster_point['y'], cluster_point['x'])
+    for _, station in stations.iterrows():
+        station_coords = (station['latitude'], station['longitude'])
+        if geodesic(cluster_coords, station_coords).meters <= radius:
+            return True
+    return False
+
+# Find the top 5 unserved high-density clusters
+unserved_clusters = []
+for _, cluster in clusters_df.iterrows():
+    if not is_within_radius(cluster, stations_df):
+        unserved_clusters.append(cluster)
+    if len(unserved_clusters) >= 5:
+        break
+
+# 📁 Step 4: Save the Top 5 Unserved Clusters to a CSV File
+unserved_clusters_df = pd.DataFrame(unserved_clusters)
+output_path = '/content/top_5_unserved_clusters.csv'
+unserved_clusters_df.to_csv(output_path, index=False)
+
+print(f"Top 5 unserved clusters saved to {output_path}.")
+```
