@@ -21,7 +21,7 @@ This dataset offers a complete view of recent bike usage in Washington, D.C.
 
 I used **Google Colab** to run the analysis, leveraging its cloud-based environment for efficient data handling. The data was loaded into **Pandas DataFrames** from CSV files for each month. I merged the datasets into a single DataFrame and cleaned the data by removing rows with missing station names. Column names were standardized for consistency.
 
-### 🔄 Code
+### 🧑‍💻 Code
 
 ```python
 import pandas as pd
@@ -69,13 +69,13 @@ In the previous step, I filtered the dataset to include only trips where either 
 ```python
 import pandas as pd
 
-# 🗂️ Combine start and end station data
+#  Combine start and end station data
 all_stations = pd.concat([start_stations, end_stations])
 
-# 🗃️ Remove duplicates to get unique station names
+#  Remove duplicates to get unique station names
 existing_stations = all_stations.drop_duplicates(subset=['station_name']).reset_index(drop=True)
 
-# 📁 Save the list of existing stations to a CSV file
+#  Save the list of existing stations to a CSV file
 output_file_path = '/content/Existing_stations.csv'
 existing_stations.to_csv(output_file_path, index=False)
 ```
@@ -113,14 +113,14 @@ import osmnx as ox
 import networkx as nx
 from geopy.distance import geodesic
 
-# 🗺️ Step 1: Extract Trip Coordinates
+#  Step 1: Extract Trip Coordinates
 coordinates = pd.concat([
     df[['start_lat', 'start_lng']].rename(columns={'start_lat': 'latitude', 'start_lng': 'longitude'}),
     df[['end_lat', 'end_lng']].rename(columns={'end_lat': 'latitude', 'end_lng': 'longitude'})
 ]).dropna()
 print(f"Loaded {len(coordinates)} coordinates.")
 
-# 🏙️ Step 2: Download Road Network and Extract Nodes
+#  Step 2: Download Road Network and Extract Nodes
 place_name = "Washington, D.C., USA"
 G = ox.graph_from_place(place_name, network_type="bike", simplify=True, retain_all=False)
 
@@ -128,7 +128,7 @@ G = ox.graph_from_place(place_name, network_type="bike", simplify=True, retain_a
 nodes = ox.graph_to_gdfs(G, nodes=True, edges=False)
 nodes_df = nodes[['x', 'y']].reset_index()
 
-# 🛑 Step 3: Create a Geofence Using Convex Hull
+# Step 3: Create a Geofence Using Convex Hull
 nodes_gdf = gpd.GeoDataFrame(nodes_df, geometry=gpd.points_from_xy(nodes_df['x'], nodes_df['y']), crs="EPSG:4326")
 geofence_polygon = nodes_gdf.unary_union.convex_hull
 
@@ -150,31 +150,31 @@ The dataset includes several trip points that extend beyond the main Washington,
 ```python
 import geopandas as gpd
 
-# 🗺️ Step 1: Convert Trip Coordinates to a GeoDataFrame
+#  Step 1: Convert Trip Coordinates to a GeoDataFrame
 coordinates_gdf = gpd.GeoDataFrame(
     coordinates,
     geometry=gpd.points_from_xy(coordinates['longitude'], coordinates['latitude']),
     crs="EPSG:4326"
 )
 
-# 🌐 Filter trip coordinates that fall within the geofence polygon
+# Filter trip coordinates that fall within the geofence polygon
 filtered_coordinates = coordinates_gdf[coordinates_gdf.within(geofence_polygon)].reset_index(drop=True)
 
-# 📁 Save the filtered trip coordinates to a CSV file
+# Save the filtered trip coordinates to a CSV file
 filtered_file_path = '/content/filtered_coordinates_within_geofence.csv'
 filtered_coordinates.to_csv(filtered_file_path, index=False)
 
-# 🏢 Step 2: Convert Existing Stations to a GeoDataFrame
+# Step 2: Convert Existing Stations to a GeoDataFrame
 stations_gdf = gpd.GeoDataFrame(
     Existing_stations,
     geometry=gpd.points_from_xy(Existing_stations['longitude'], Existing_stations['latitude']),
     crs="EPSG:4326"
 )
 
-# 🌐 Filter existing stations that fall within the geofence polygon
+# Filter existing stations that fall within the geofence polygon
 filtered_stations = stations_gdf[stations_gdf.within(geofence_polygon)].reset_index(drop=True)
 
-# 📁 Save the filtered list of unique stations to a CSV file
+# Save the filtered list of unique stations to a CSV file
 filtered_output_path = '/content/filtered_unique_stations_within_geofence.csv'
 filtered_stations[['station_name', 'latitude', 'longitude']].to_csv(filtered_output_path, index=False)
 ```
@@ -201,21 +201,21 @@ Grid-based clustering is a method that divides a geographical area into uniform 
 ```python
 import pandas as pd
 
-# 📏 Step 1: Define grid size (approx. 100 meters)
+#  Step 1: Define grid size (approx. 100 meters)
 grid_size = 0.001
 
-# 🗺️ Step 2: Calculate grid cell indices for longitude and latitude
+#  Step 2: Calculate grid cell indices for longitude and latitude
 coordinates_df['x_cell'] = (coordinates_df['longitude'] // grid_size).astype(int)
 coordinates_df['y_cell'] = (coordinates_df['latitude'] // grid_size).astype(int)
 
-# 📊 Step 3: Group by grid cell and compute centroid (mean) and density (count)
+# Step 3: Group by grid cell and compute centroid (mean) and density (count)
 cluster_summary = coordinates_df.groupby(['x_cell', 'y_cell']).agg(
     x=('longitude', 'mean'),
     y=('latitude', 'mean'),
     density=('latitude', 'size')
 ).reset_index()
 
-# 📁 Step 4: Save the clustered data to a CSV file
+# Step 4: Save the clustered data to a CSV file
 output_path = '/content/grid_clustered_coordinates.csv'
 cluster_summary[['x', 'y', 'density']].to_csv(output_path, index=False)
 ```
@@ -244,16 +244,16 @@ In the final step of the analysis, I focused on pinpointing the top 5 high-densi
 import pandas as pd
 from geopy.distance import geodesic
 
-# 📂 Step 1: Load Cluster and Station Data
+# Step 1: Load Cluster and Station Data
 clustered_file_path = '/content/grid_clustered_coordinates.csv'
 stations_file_path = '/content/Existing_stations.csv'
 clusters_df = pd.read_csv(clustered_file_path)
 stations_df = pd.read_csv(stations_file_path)
 
-# 📊 Step 2: Sort Clusters by Density
+# Step 2: Sort Clusters by Density
 clusters_df = clusters_df.sort_values(by='density', ascending=False).reset_index(drop=True)
 
-# 🗺️ Step 3: Identify Unserved High-Density Clusters
+#  Step 3: Identify Unserved High-Density Clusters
 def is_within_radius(cluster_point, stations, radius=200):
     cluster_coords = (cluster_point['y'], cluster_point['x'])
     for _, station in stations.iterrows():
@@ -270,7 +270,7 @@ for _, cluster in clusters_df.iterrows():
     if len(unserved_clusters) >= 5:
         break
 
-# 📁 Step 4: Save the Top 5 Unserved Clusters to a CSV File
+# Step 4: Save the Top 5 Unserved Clusters to a CSV File
 unserved_clusters_df = pd.DataFrame(unserved_clusters)
 output_path = '/content/top_5_unserved_clusters.csv'
 unserved_clusters_df.to_csv(output_path, index=False)
