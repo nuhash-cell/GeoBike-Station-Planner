@@ -79,3 +79,102 @@ existing_stations = all_stations.drop_duplicates(subset=['station_name']).reset_
 output_file_path = '/content/Existing_stations.csv'
 existing_stations.to_csv(output_file_path, index=False)
 ```
+
+# 🗺️ Geospatial Data Extraction and Geofencing
+
+This step focuses on geospatial analysis using several Python libraries to handle data and perform calculations:
+
+- **NumPy**: For numerical operations
+- **GeoPandas**: For geospatial data manipulation
+- **Shapely**: For geometric operations (e.g., convex hull)
+- **OSMNx**: For road network extraction from OpenStreetMap
+- **NetworkX**: For graph-based operations on the road network
+- **Geopy**: For distance calculations using the geodesic formula
+
+## 📋 Process Overview
+
+1. **Extract Trip Coordinates**:  
+   I combined the latitude and longitude of both starting and ending points from the trip data, keeping only entries with valid coordinates.
+
+2. **Download Road Network and Extract Nodes**:  
+   Using OSMNx, I downloaded the road network for Washington, D.C., focusing on bike paths, and extracted nodes representing intersections and road endpoints.
+
+3. **Create a Geofence Using Convex Hull**:  
+   I generated a geofence using the convex hull of the road network nodes to outline the area of interest, ensuring focus on the relevant urban area.
+
+## 🧑‍💻 Code
+
+```python
+import numpy as np
+import pandas as pd
+import geopandas as gpd
+from shapely.geometry import Point
+import osmnx as ox
+import networkx as nx
+from geopy.distance import geodesic
+
+# 🗺️ Step 1: Extract Trip Coordinates
+coordinates = pd.concat([
+    df[['start_lat', 'start_lng']].rename(columns={'start_lat': 'latitude', 'start_lng': 'longitude'}),
+    df[['end_lat', 'end_lng']].rename(columns={'end_lat': 'latitude', 'end_lng': 'longitude'})
+]).dropna()
+print(f"Loaded {len(coordinates)} coordinates.")
+
+# 🏙️ Step 2: Download Road Network and Extract Nodes
+place_name = "Washington, D.C., USA"
+G = ox.graph_from_place(place_name, network_type="bike", simplify=True, retain_all=False)
+
+# Extract nodes with longitude (x) and latitude (y)
+nodes = ox.graph_to_gdfs(G, nodes=True, edges=False)
+nodes_df = nodes[['x', 'y']].reset_index()
+
+# 🛑 Step 3: Create a Geofence Using Convex Hull
+nodes_gdf = gpd.GeoDataFrame(nodes_df, geometry=gpd.points_from_xy(nodes_df['x'], nodes_df['y']), crs="EPSG:4326")
+geofence_polygon = nodes_gdf.unary_union.convex_hull
+
+```
+# 🗺️ Filtering Coordinates and Stations Within the Geofence
+
+The dataset includes several trip points that extend beyond the main Washington, D.C. area. To focus on the urban core, I filtered both the trip coordinates and station data, including only points within a defined geofence around the city. This step ensures the analysis is relevant, avoiding noise from areas outside the city boundary.
+
+## 📋 Process Overview
+
+1. **Filtering Trip Coordinates**:  
+   I converted the combined trip coordinates (start and end points) into a GeoDataFrame and applied the geofence filter.
+
+2. **Filtering Existing Bike Stations**:  
+   I processed the existing station data by converting it to a GeoDataFrame and applied the same geofence filter to retain only stations within the city boundary.
+
+## 🧑‍💻 Code
+
+```python
+import geopandas as gpd
+
+# 🗺️ Step 1: Convert Trip Coordinates to a GeoDataFrame
+coordinates_gdf = gpd.GeoDataFrame(
+    coordinates,
+    geometry=gpd.points_from_xy(coordinates['longitude'], coordinates['latitude']),
+    crs="EPSG:4326"
+)
+
+# 🌐 Filter trip coordinates that fall within the geofence polygon
+filtered_coordinates = coordinates_gdf[coordinates_gdf.within(geofence_polygon)].reset_index(drop=True)
+
+# 📁 Save the filtered trip coordinates to a CSV file
+filtered_file_path = '/content/filtered_coordinates_within_geofence.csv'
+filtered_coordinates.to_csv(filtered_file_path, index=False)
+
+# 🏢 Step 2: Convert Existing Stations to a GeoDataFrame
+stations_gdf = gpd.GeoDataFrame(
+    Existing_stations,
+    geometry=gpd.points_from_xy(Existing_stations['longitude'], Existing_stations['latitude']),
+    crs="EPSG:4326"
+)
+
+# 🌐 Filter existing stations that fall within the geofence polygon
+filtered_stations = stations_gdf[stations_gdf.within(geofence_polygon)].reset_index(drop=True)
+
+# 📁 Save the filtered list of unique stations to a CSV file
+filtered_output_path = '/content/filtered_unique_stations_within_geofence.csv'
+filtered_stations[['station_name', 'latitude', 'longitude']].to_csv(filtered_output_path, index=False)
+```
