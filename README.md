@@ -178,3 +178,44 @@ filtered_stations = stations_gdf[stations_gdf.within(geofence_polygon)].reset_in
 filtered_output_path = '/content/filtered_unique_stations_within_geofence.csv'
 filtered_stations[['station_name', 'latitude', 'longitude']].to_csv(filtered_output_path, index=False)
 ```
+# 🗺️ Grid-Based Clustering Algorithm
+
+Grid-based clustering is a method that divides a geographical area into uniform grid cells and assigns data points based on their coordinates. In this project, I used a grid size of **0.001 degrees** (approximately 100 meters) to segment Washington, D.C. into manageable sections. Each trip coordinate was mapped to a grid cell using its latitude and longitude. By aggregating data within each cell, I calculated the centroid (average position) and density (number of points) for each grid cell. This method efficiently identifies areas of high bike usage by focusing on the density of points in each grid cell.
+
+## 📋 Process Overview
+
+1. **Define Grid Size**:  
+   The grid size was set to 0.001 degrees, roughly corresponding to a 100-meter cell in the latitude and longitude coordinates.
+
+2. **Assign Trip Coordinates to Grid Cells**:  
+   The coordinates were mapped to grid cells by calculating the indices based on their latitude and longitude.
+
+3. **Calculate Centroid and Density**:  
+   For each grid cell, the centroid (mean position) and density (count of points) were computed.
+
+4. **Export Clustered Data**:  
+   The resulting clustered data was saved to a CSV file for further analysis.
+
+## 🧑‍💻 Code
+
+```python
+import pandas as pd
+
+# 📏 Step 1: Define grid size (approx. 100 meters)
+grid_size = 0.001
+
+# 🗺️ Step 2: Calculate grid cell indices for longitude and latitude
+coordinates_df['x_cell'] = (coordinates_df['longitude'] // grid_size).astype(int)
+coordinates_df['y_cell'] = (coordinates_df['latitude'] // grid_size).astype(int)
+
+# 📊 Step 3: Group by grid cell and compute centroid (mean) and density (count)
+cluster_summary = coordinates_df.groupby(['x_cell', 'y_cell']).agg(
+    x=('longitude', 'mean'),
+    y=('latitude', 'mean'),
+    density=('latitude', 'size')
+).reset_index()
+
+# 📁 Step 4: Save the clustered data to a CSV file
+output_path = '/content/grid_clustered_coordinates.csv'
+cluster_summary[['x', 'y', 'density']].to_csv(output_path, index=False)
+```
