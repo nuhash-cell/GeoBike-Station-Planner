@@ -2,10 +2,16 @@
 
 **GeoBike-Station-Planner**: A Python-based tool leveraging geospatial analysis to optimize new bike station placements in Washington, D.C. Features include **geofencing**, **grid-based clustering**, and **service radius checks** to identify high-demand, underserved areas.
 
-## 🗺️ Project Overview
 
-Help to determine the next place to build a bike station.  
-To help **Capital Bikeshare** find the best spots for new bike stations, I used trip data and geospatial analysis. The goal was simple: pinpoint high-demand areas that current stations don’t cover well. The results show exactly where new stations would get the most use, improving service for riders.
+## 🛤️ Project Overview: Finding the Perfect Spot for New Bike Stations
+
+🚲 **Problem**: Riders in Washington, D.C. often struggle to find nearby bike stations, especially in high-demand areas.
+
+📊 **Solution**: Using trip data from **Capital Bikeshare**, I analyzed bike usage patterns across the city. By mapping where trips start and end, I identified key zones where new stations are needed most.
+
+🗺️ **Approach**: Through data-driven geospatial analysis, I pinpointed underserved hotspots — areas with high bike activity but no nearby stations.
+
+🏆 **Outcome**: A clear, actionable plan for expanding the bike-sharing network, filling gaps, and ensuring riders have access to stations exactly where they need them.
 
 ## 📊 Datasets
 
