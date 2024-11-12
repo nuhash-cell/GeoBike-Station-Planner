@@ -71,6 +71,10 @@ In the previous step, I filtered the dataset to include only trips where either 
 
 3. **Exporting the Station List**:  
    The final list of unique bike stations was saved to a CSV file for use in subsequent geospatial analysis.
+<p align="center">
+  <strong>All Existing Stations Mapped in ArcGIS</strong><br/>
+  <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/All_existing_stations.jpg" alt="All Existing Stations" width="600"/>
+</p>
 
 <details>
 <summary>📌 ▶️ CLICK HERE TO VIEW THE CODE BLOCK ▶️ 📌</summary>
