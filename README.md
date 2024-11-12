@@ -229,6 +229,7 @@ filtered_output_path = '/content/filtered_unique_stations_within_geofence.csv'
 filtered_stations[['station_name', 'latitude', 'longitude']].to_csv(filtered_output_path, index=False)
 ```
 </details>
+
 ## 🗺️ Grid-Based Clustering Algorithm
 
 Grid-based clustering is a method that divides a geographical area into uniform grid cells and assigns data points based on their coordinates. In this project, I used a grid size of **0.001 degrees** (approximately 100 meters) to segment Washington, D.C. into manageable sections. Each trip coordinate was mapped to a grid cell using its latitude and longitude. By aggregating data within each cell, I calculated the centroid (average position) and density (number of points) for each grid cell. This method efficiently identifies areas of high bike usage by focusing on the density of points in each grid cell.
