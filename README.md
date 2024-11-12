@@ -233,6 +233,11 @@ Grid-based clustering is a method that divides a geographical area into uniform 
 4. **Export Clustered Data**:  
    The resulting clustered data was saved to a CSV file for further analysis.
 
+<p align="center">
+  <strong>Heatmap of Bike Usage Clusters Based on Start and End Coordinates Using Grid-Based Clustering Algorithm</strong><br/>
+  <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/Images/Heatmap%20of%20usuage.jpg" alt="Heatmap of Bike Usage Clusters" width="600"/>
+</p>
+
 <details>
 <summary>📌 ▶️ CLICK HERE TO VIEW THE CODE BLOCK ▶️ 📌</summary>
   
