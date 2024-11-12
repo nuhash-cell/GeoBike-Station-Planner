@@ -29,7 +29,7 @@ This dataset offers a complete view of recent bike usage in Washington, D.C.
 I used **Google Colab** to run the analysis, leveraging its cloud-based environment for efficient data handling. The data was loaded into **Pandas DataFrames** from CSV files for each month. I merged the datasets into a single DataFrame and cleaned the data by removing rows with missing station names. Column names were standardized for consistency.
 
 <details>
-<summary>🧑‍💻Please Click to Expand the Code</summary>
+<summary>📌 ▶️ CLICK HERE TO VIEW THE CODE BLOCK ▶️ 📌</summary>
 
 ```python
 import pandas as pd
@@ -73,7 +73,7 @@ In the previous step, I filtered the dataset to include only trips where either 
    The final list of unique bike stations was saved to a CSV file for use in subsequent geospatial analysis.
 
 <details>
-<summary>🧑‍💻Please Click to Expand the Code</summary>
+<summary>📌 ▶️ CLICK HERE TO VIEW THE CODE BLOCK ▶️ 📌</summary>
 
 ```python
 import pandas as pd
@@ -114,7 +114,7 @@ This step focuses on geospatial analysis using several Python libraries to handl
    I generated a geofence using the convex hull of the road network nodes to outline the area of interest, ensuring focus on the relevant urban area.
 
 <details>
-<summary>🧑‍💻Please Click to Expand the Code</summary>
+<summary>📌 ▶️ CLICK HERE TO VIEW THE CODE BLOCK ▶️ 📌</summary>
 
 ```python
 import numpy as np
@@ -160,7 +160,7 @@ The dataset includes several trip points that extend beyond the main Washington,
    I processed the existing station data by converting it to a GeoDataFrame and applied the same geofence filter to retain only stations within the city boundary.
 
 <details>
-<summary>🧑‍💻Please Click to Expand the Code</summary>
+<summary>📌 ▶️ CLICK HERE TO VIEW THE CODE BLOCK ▶️ 📌</summary>
   
 ```python
 import geopandas as gpd
@@ -213,7 +213,7 @@ Grid-based clustering is a method that divides a geographical area into uniform 
    The resulting clustered data was saved to a CSV file for further analysis.
 
 <details>
-<summary>🧑‍💻Please Click to Expand the Code</summary>
+<summary>📌 ▶️ CLICK HERE TO VIEW THE CODE BLOCK ▶️ 📌</summary>
   
 ```python
 import pandas as pd
@@ -257,7 +257,7 @@ In the final step of the analysis, I focused on pinpointing the top 5 high-densi
    The identified clusters were saved to a CSV file for further review and potential planning of new bike stations.
 
 <details>
-<summary>🧑‍💻Please Click to Expand the Code</summary>
+<summary>📌 ▶️ CLICK HERE TO VIEW THE CODE BLOCK ▶️ 📌</summary>
 
 ```python
 import pandas as pd
