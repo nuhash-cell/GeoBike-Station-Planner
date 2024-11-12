@@ -152,8 +152,9 @@ The dataset includes several trip points that extend beyond the main Washington,
 2. **Filtering Existing Bike Stations**:  
    I processed the existing station data by converting it to a GeoDataFrame and applied the same geofence filter to retain only stations within the city boundary.
 
-#### 🧑‍💻 Code
-
+<details>
+<summary>🧑‍💻Please Click to Expand the Code</summary>
+  
 ```python
 import geopandas as gpd
 
@@ -185,6 +186,7 @@ filtered_stations = stations_gdf[stations_gdf.within(geofence_polygon)].reset_in
 filtered_output_path = '/content/filtered_unique_stations_within_geofence.csv'
 filtered_stations[['station_name', 'latitude', 'longitude']].to_csv(filtered_output_path, index=False)
 ```
+</details>
 ## 🗺️ Grid-Based Clustering Algorithm
 
 Grid-based clustering is a method that divides a geographical area into uniform grid cells and assigns data points based on their coordinates. In this project, I used a grid size of **0.001 degrees** (approximately 100 meters) to segment Washington, D.C. into manageable sections. Each trip coordinate was mapped to a grid cell using its latitude and longitude. By aggregating data within each cell, I calculated the centroid (average position) and density (number of points) for each grid cell. This method efficiently identifies areas of high bike usage by focusing on the density of points in each grid cell.
@@ -203,8 +205,9 @@ Grid-based clustering is a method that divides a geographical area into uniform 
 4. **Export Clustered Data**:  
    The resulting clustered data was saved to a CSV file for further analysis.
 
-#### 🧑‍💻 Code
-
+<details>
+<summary>🧑‍💻Please Click to Expand the Code</summary>
+  
 ```python
 import pandas as pd
 
@@ -226,6 +229,7 @@ cluster_summary = coordinates_df.groupby(['x_cell', 'y_cell']).agg(
 output_path = '/content/grid_clustered_coordinates.csv'
 cluster_summary[['x', 'y', 'density']].to_csv(output_path, index=False)
 ```
+</details>
 
 ## 🚲 Identifying Top 5 High-Demand Areas for New Bike Stations
 
@@ -245,7 +249,8 @@ In the final step of the analysis, I focused on pinpointing the top 5 high-densi
 4. **Save the Top 5 Unserved Clusters**:  
    The identified clusters were saved to a CSV file for further review and potential planning of new bike stations.
 
-#### 🧑‍💻 Code
+<details>
+<summary>🧑‍💻Please Click to Expand the Code</summary>
 
 ```python
 import pandas as pd
@@ -284,15 +289,4 @@ unserved_clusters_df.to_csv(output_path, index=False)
 
 print(f"Top 5 unserved clusters saved to {output_path}.")
 ```
-## 📑 Table of Contents
-- [Project Overview](#project-overview)
-- [Data Source](#data-source)
-- [Data Loading and Cleaning](#data-loading-and-cleaning)
-- [Extracting Existing Bike Stations](#extracting-existing-bike-stations)
-- [Geospatial Data Extraction and Geofencing](#geospatial-data-extraction-and-geofencing)
-- [Grid-Based Clustering Algorithm](#grid-based-clustering-algorithm)
-- [Identifying Top 5 High-Demand Areas for New Bike Stations](#identifying-top-5-high-demand-areas-for-new-bike-stations)
-- [Technologies Used](#technologies-used)
-- [Results](#results)
-- [How to Run the Project](#how-to-run-the-project)
-- [License](#license)
+</details>
