@@ -18,11 +18,25 @@
 
 I used trip data from Capital Bikeshare’s public system, focusing on the **last 3 months**. The dataset, available [here](https://capitalbikeshare.com/system-data), includes:
 
-- **Trip Start and End Times**
-- **Trip Durations**
-- **Station Locations**
-
+- **`ride_id`**: Unique identifier for each bike trip.
+- **`rideable_type`**: Type of bike used for the trip (e.g., `classic_bike`, `electric_bike`).
+- **`started_at`** and **`ended_at`**: Timestamps indicating when the trip started and ended.
+- **`start_station_name`** and **`end_station_name`**: Names of the starting and ending stations (if available).
+- **`start_station_id`** and **`end_station_id`**: IDs of the starting and ending stations (if available).
+- **`start_lat`**, **`start_lng`**, **`end_lat`**, and **`end_lng`**: Latitude and longitude coordinates for the trip’s start and end points.
+- **`member_casual`**: Indicates whether the rider was a registered member (`member`) or a casual user (`casual`).
 This dataset offers a complete view of recent bike usage in Washington, D.C.
+<details>
+<summary>📋 Click to Expand: Sample Data</summary>
+
+| ride_id          | rideable_type | started_at | ended_at | start_station_name                   | start_station_id | end_station_name          | end_station_id | start_lat | start_lng | end_lat | end_lng | member_casual |
+|------------------|---------------|------------|----------|--------------------------------------|------------------|---------------------------|----------------|-----------|-----------|---------|---------|---------------|
+| 633508FBFAB9225A | classic_bike  | 04:45.9    | 09:56.6  | Eastern Market / 7th & North Carolina Ave SE | 31610            | 13th & D St NE            | 31622          | 38.886952 | -76.996806 | 38.894832 | -76.987633 | casual        |
+| 44C6D24604BB529E | electric_bike | 41:26.8    | 50:45.0  | Calvert St & Woodley Pl NW           | 31121            | Massachusetts & Idaho Ave NW | 31395          | 38.923583 | -77.050046 | 38.931349 | -77.077214 | casual        |
+| 9BACE0BE05FD9638 | electric_bike | 16:23.1    | 21:43.7  |                                      |                  |                           |                | 38.95     | -77        | 38.96    | -77.01   | member        |
+| 9F78E932FCDF1F18 | electric_bike | 35:39.7    | 50:42.0  | 12th & L St NW                       | 31251            | Grant Circle               | 31421          | 38.903819 | -77.0284   | 38.942025 | -77.018221 | member        |
+
+</details>
 
 ## 🛠️ Data Loading and Cleaning
 
