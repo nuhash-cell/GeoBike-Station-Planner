@@ -284,30 +284,15 @@ unserved_clusters_df.to_csv(output_path, index=False)
 
 print(f"Top 5 unserved clusters saved to {output_path}.")
 ```
-
-## 🔗 Table of Contents
-
-- [Project Overview](#project-overview)  
-  *A high-level description of the project’s objectives and the problem it solves.*
-
-- [Datasets](#datasets)  
-  *Details about the data sources used, including bike trip data from Capital Bikeshare.*
-
-- [Data Loading and Cleaning](#data-loading-and-cleaning)  
-  *How the data is imported, merged, and cleaned to prepare it for analysis.*
-
-- [Extracting Existing Bike Stations](#extracting-existing-bike-stations)  
-  *Combining trip data to create a list of current bike stations in the city.*
-
-- [Geospatial Data Extraction and Geofencing](#geospatial-data-extraction-and-geofencing)  
-  *Downloading the road network and defining a geofence around the main urban area.*
-
-- [Filtering Coordinates Within Geofence](#filtering-coordinates-within-geofence)  
-  *Removing data points outside the city boundary to focus on relevant areas.*
-
-- [Grid-Based Clustering Algorithm](#grid-based-clustering-algorithm)  
-  *Segmenting the city into a grid and analyzing bike usage density within each grid cell.*
-
-- [Top 5 High-Demand Areas for New Stations](#identifying-top-5-high-demand-areas-for-new-stations)  
-  *Finding underserved, high-density locations that could benefit from new bike stations.*
-
+## 📑 Table of Contents
+- [Project Overview](#project-overview)
+- [Data Source](#data-source)
+- [Data Loading and Cleaning](#data-loading-and-cleaning)
+- [Extracting Existing Bike Stations](#extracting-existing-bike-stations)
+- [Geospatial Data Extraction and Geofencing](#geospatial-data-extraction-and-geofencing)
+- [Grid-Based Clustering Algorithm](#grid-based-clustering-algorithm)
+- [Identifying Top 5 High-Demand Areas for New Bike Stations](#identifying-top-5-high-demand-areas-for-new-bike-stations)
+- [Technologies Used](#technologies-used)
+- [Results](#results)
+- [How to Run the Project](#how-to-run-the-project)
+- [License](#license)
