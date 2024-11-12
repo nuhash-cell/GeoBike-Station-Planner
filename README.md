@@ -162,6 +162,23 @@ The dataset includes several trip points that extend beyond the main Washington,
 
 2. **Filtering Existing Bike Stations**:  
    I processed the existing station data by converting it to a GeoDataFrame and applied the same geofence filter to retain only stations within the city boundary.
+<table>
+  <tr>
+    <td align="center">
+      <strong>Geofence for Washington, D.C.</strong><br/>
+      <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/Geofence.jpg" alt="Geofence" width="400"/>
+    </td>
+    <td align="center">
+      <strong>Bike Stations within Geofence</strong><br/>
+      <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/Stations%20Found%20inside%20geofence.jpg" alt="Stations Inside Geofence" width="400"/>
+    </td>
+    <td align="center">
+      <strong>Starting and Ending Coordinates within Geofence</strong><br/>
+      <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/starting%20and%20ending%20coordinates%20Found%20inside%20geofence.jpg" alt="Coordinates Inside Geofence" width="400"/>
+    </td>
+  </tr>
+</table>
+
 
 <details>
 <summary>📌 ▶️ CLICK HERE TO VIEW THE CODE BLOCK ▶️ 📌</summary>
