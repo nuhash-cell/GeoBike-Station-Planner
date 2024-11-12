@@ -76,13 +76,13 @@ In the previous step, I filtered the dataset to include only trips where either 
 ```python
 import pandas as pd
 
-#  Combine start and end station data
+# Combine start and end station data
 all_stations = pd.concat([start_stations, end_stations])
 
-#  Remove duplicates to get unique station names
+# Remove duplicates to get unique station names
 existing_stations = all_stations.drop_duplicates(subset=['station_name']).reset_index(drop=True)
 
-#  Save the list of existing stations to a CSV file
+# Save the list of existing stations to a CSV file
 output_file_path = '/content/Existing_stations.csv'
 existing_stations.to_csv(output_file_path, index=False)
 ```
