@@ -61,7 +61,7 @@ end_stations.rename(columns={'end_station_name': 'station_name',
 
 In the previous step, I filtered the dataset to include only trips where either `start_station_name` or `end_station_name` had valid entries, ensuring that only recognized bike stations were considered. The goal here was to compile a comprehensive list of these existing stations for further analysis.
 
-#### 🔍 Process Overview
+#### 📋 Process Overview
 
 1. **Combining Start and End Station Data**:  
    To capture all potential bike stations, I merged the filtered DataFrames for start and end stations. This ensured that stations listed as either a starting or ending location were included in the analysis.
