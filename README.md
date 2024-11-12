@@ -343,3 +343,10 @@ print(f"Top 5 unserved clusters saved to {output_path}.")
   <strong>Usage Heatmap with Existing and 5 New Suggested Bike Stations</strong><br/>
   <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/Images/Usuge%20%2B%20Existing%20Station%2B%205%20new%20suggested%20stations.jpg" alt="Usage with New Suggested Stations" width="800"/>
 </p>
+
+
+<p align="center">
+  <strong>Animated Visualization: Progression from Usage Heatmap to Suggested New Bike Stations</strong><br/>
+  <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/Images/gif.gif" alt="Animated Summary of Analysis" width="800"/>
+</p>
+
