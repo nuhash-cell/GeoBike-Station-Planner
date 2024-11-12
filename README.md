@@ -323,3 +323,23 @@ unserved_clusters_df.to_csv(output_path, index=False)
 print(f"Top 5 unserved clusters saved to {output_path}.")
 ```
 </details>
+
+<!-- Side-by-Side Images -->
+<table>
+  <tr>
+    <td align="center">
+      <strong>Heatmap of Bike Usage Across Washington, D.C.</strong><br/>
+      <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/Images/Usuge.jpg" alt="Heatmap of Usage" width="500"/>
+    </td>
+    <td align="center">
+      <strong>Heatmap of Usage with Existing Bike Stations Mapped</strong><br/>
+      <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/Images/Usuge%20%2B%20Existing%20Station.jpg" alt="Usage with Existing Stations" width="500"/>
+    </td>
+  </tr>
+</table>
+
+<!-- Large Image Below -->
+<p align="center">
+  <strong>Usage Heatmap with Existing and 5 New Suggested Bike Stations</strong><br/>
+  <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/Images/Usuge%20%2B%20Existing%20Station%2B%205%20new%20suggested%20stations.jpg" alt="Usage with New Suggested Stations" width="800"/>
+</p>
