@@ -28,7 +28,8 @@ This dataset offers a complete view of recent bike usage in Washington, D.C.
 
 I used **Google Colab** to run the analysis, leveraging its cloud-based environment for efficient data handling. The data was loaded into **Pandas DataFrames** from CSV files for each month. I merged the datasets into a single DataFrame and cleaned the data by removing rows with missing station names. Column names were standardized for consistency.
 
-#### 🧑‍💻 Code
+<details>
+<summary>🧑‍💻Please Click to Expand the Code</summary>
 
 ```python
 import pandas as pd
@@ -54,7 +55,7 @@ end_stations.rename(columns={'end_station_name': 'station_name',
                              'end_lat': 'latitude',
                              'end_lng': 'longitude'}, inplace=True)
 ```
-
+</details>
 
 ## 🚲 Extracting Existing Bike Stations
 
@@ -71,7 +72,8 @@ In the previous step, I filtered the dataset to include only trips where either 
 3. **Exporting the Station List**:  
    The final list of unique bike stations was saved to a CSV file for use in subsequent geospatial analysis.
 
-#### 🧑‍💻 Code
+<details>
+<summary>🧑‍💻Please Click to Expand the Code</summary>
 
 ```python
 import pandas as pd
@@ -86,6 +88,8 @@ existing_stations = all_stations.drop_duplicates(subset=['station_name']).reset_
 output_file_path = '/content/Existing_stations.csv'
 existing_stations.to_csv(output_file_path, index=False)
 ```
+</details>
+
 
 ## 🗺️ Geospatial Data Extraction and Geofencing
 
@@ -109,7 +113,8 @@ This step focuses on geospatial analysis using several Python libraries to handl
 3. **Create a Geofence Using Convex Hull**:  
    I generated a geofence using the convex hull of the road network nodes to outline the area of interest, ensuring focus on the relevant urban area.
 
-#### 🧑‍💻 Code
+<details>
+<summary>🧑‍💻Please Click to Expand the Code</summary>
 
 ```python
 import numpy as np
@@ -140,6 +145,8 @@ nodes_gdf = gpd.GeoDataFrame(nodes_df, geometry=gpd.points_from_xy(nodes_df['x']
 geofence_polygon = nodes_gdf.unary_union.convex_hull
 
 ```
+</details>
+
 ## 🗺️ Filtering Coordinates and Stations Within the Geofence
 
 The dataset includes several trip points that extend beyond the main Washington, D.C. area. To focus on the urban core, I filtered both the trip coordinates and station data, including only points within a defined geofence around the city. This step ensures the analysis is relevant, avoiding noise from areas outside the city boundary.
