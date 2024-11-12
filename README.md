@@ -73,7 +73,7 @@ In the previous step, I filtered the dataset to include only trips where either 
    The final list of unique bike stations was saved to a CSV file for use in subsequent geospatial analysis.
 <p align="center">
   <strong>All Existing Stations Mapped in ArcGIS</strong><br/>
-  <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/All_existing_stations.jpg" alt="All Existing Stations" width="600"/>
+  <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/Images/All_existing_stations.jpg" alt="All Existing Stations" width="600"/>
 </p>
 
 <details>
@@ -166,15 +166,15 @@ The dataset includes several trip points that extend beyond the main Washington,
   <tr>
     <td align="center">
       <strong>Geofence for Washington, D.C.</strong><br/>
-      <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/Geofence.jpg" alt="Geofence" width="400"/>
+      <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/Images/Geofence.jpg" alt="Geofence" width="400"/>
     </td>
     <td align="center">
       <strong>Bike Stations within Geofence</strong><br/>
-      <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/Stations%20Found%20inside%20geofence.jpg" alt="Stations Inside Geofence" width="400"/>
+      <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/Images/Stations%20Found%20inside%20geofence.jpg" alt="Stations Inside Geofence" width="400"/>
     </td>
     <td align="center">
       <strong>Starting and Ending Coordinates within Geofence</strong><br/>
-      <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/starting%20and%20ending%20coordinates%20Found%20inside%20geofence.jpg" alt="Coordinates Inside Geofence" width="400"/>
+      <img src="https://github.com/nuhash-cell/GeoBike-Station-Planner/blob/main/Images/starting%20and%20ending%20coordinates%20Found%20inside%20geofence.jpg" alt="Coordinates Inside Geofence" width="400"/>
     </td>
   </tr>
 </table>
